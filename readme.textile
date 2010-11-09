@@ -1,20 +1,10 @@
-This library provides many equivalent functions of Flash's Caurina Tweener in
-python, and uses the same set of excellent
-"easing equations by Robert Penner":http://www.robertpenner.com/easing/.
-In a nut-shell, it allows you to move objects with nice smooth acceleration and
-deceleration using a variety of methods. Plus you dont have to worry about
-updating them. Any property that supports standard mathematical operations can
-be tweened, and this is particularly useful with Ogre.Vector3, Ogre.Quaternion
-etc. etc.
+This library provides many equivalent functions of Flash's Caurina Tweener in python, and uses the same set of excellent "easing equations by Robert Penner":http://www.robertpenner.com/easing/ . In a nut-shell, it allows you to move objects with nice smooth acceleration and deceleration using a variety of methods. Plus you don't have to worry about updating them. Any property that supports standard mathematical operations can be tweened. This is particularly useful with animations.
 
-Usage is fairly simple, and an example is provided that doesn't rely on ogre.
-At the initialization phase:
+Usage is fairly simple. At the initialization phase:
 
 <code>
 import PiTweener
-
 ...
-
 self.tweener = PiTweener.Tweener()
 # add a tween:
 tweener.addTween(
@@ -25,10 +15,8 @@ tweener.addTween(
     tweenType = tweener.OUT_QUAD,
     onCompleteFunction = myRocket.burn
 )
-
 ...
-
-#get a tween and modify it:
+# get a tween and modify it:
 mt = tweener.getTweensAffectingObject(myRocket)[0]
 tweenable = mt.getTweenable("throttle")
 T.addTween(tweenable, change = 1000, tweenTime = 0.7)
@@ -37,9 +25,4 @@ T.addTween(mt, duration = -0.2, tweenTime = 0.2)
 
 h2. pyTweener
 
-PiTweener is a fork of
-"pyTweener":http://wiki.python-ogre.org/index.php/CodeSnippits_pyTweener
-. It was forked by pipeep (get it?), to address a number of bugs in the
-pyTweener engine. Eventually the entire library (and API) will be made to match
-"python's <code>PEP 8</code> guidelines":http://www.python.org/dev/peps/pep-0008
-.
+PiTweener is a fork of "pyTweener":http://wiki.python-ogre.org/index.php/CodeSnippits_pyTweener . It was forked by pipeep (get it?), to address a number of bugs in the pyTweener engine. Eventually the entire library (and API) will be made to match "python's <code>PEP 8</code> guidelines":http://www.python.org/dev/peps/pep-0008 .
