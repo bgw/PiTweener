@@ -1,11 +1,14 @@
-# pyTweener
+# piTweener
 #
 # Tweening functions for python
 #
 # Heavily based on caurina Tweener: http://code.google.com/p/tweener/
+# Forked from pyTweener:
+# http://wiki.python-ogre.org/index.php/CodeSnippits_pyTweener
 #
 # Released under M.I.T License - see above url
-# Python version by Ben Harling 2009
+# Original Python version by Ben Harling 2009
+# Bugfixes and fork by Benjamin Woodruff 2010
  
  
 import math
@@ -78,7 +81,7 @@ class Tweener:
         t-=2
         return -c/2 * ((t)*t*t*t - 2) + b
  
-    def OUT_ELASTIC(self, t, b, c, d): # Not working :(
+    def OUT_ELASTIC(self, t, b, c, d):
         if (t==0): 
             return b
         t/=d
@@ -92,7 +95,7 @@ class Tweener:
         else:
             s = p/(2*math.pi) * math.asin (c/a)
  
-        return (a*math.pow(2,-10*t) * math.sin( (t*d-s)*(2*math.PI)/p ) + c + b)
+        return (a*math.pow(2,-10*t) * math.sin( (t*d-s)*(2*math.pi)/p ) + c + b)
  
  
     def hasTweens(self):
@@ -146,11 +149,16 @@ class Tweener:
         if tw:    
             self.currentTweens.append( tw )
         return tw
+
+    def removeAllTweens( self ):
+    	for i in self.currentTweens:
+    		i.complete = True
+        self.currentTweens = []
  
-    def removeTween( tweenObj ):
-        if self.currentTweens.contains( tweenObj ):
+    def removeTween( self, tweenObj ):
+        if tweenObj in self.currentTweens:
             tweenObj.complete = True
-            #self.currentTweens.remove( tweenObj )
+            self.currentTweens.remove(tweenObj)
  
     def getTweensAffectingObject( self, obj ):
         """Get a list of all tweens acting on the specified object
@@ -164,16 +172,15 @@ class Tweener:
     def removeTweeningFrom( self, obj ):
         """Stop tweening an object, without completing the motion
         or firing the completeFunction"""
-        for t in self.currentTweens:
+        for t in self.currentTweens[:]:
             if t.target is obj:
                 t.complete = True
- 
- 
+                self.currentTweens.remove(t)
+    
     def update(self, timeSinceLastFrame):
         for t in self.currentTweens:
-            if not t.complete:
-                t.update( timeSinceLastFrame )
-            else:
+            t.update( timeSinceLastFrame )
+            if t.complete:
                 self.currentTweens.remove(t)
  
 class Tween(object):
@@ -212,25 +219,28 @@ class Tween(object):
             if not hasattr( self.target, k):
                 print "TWEEN ERROR: " + str(self.target) + " has no function " + k
                 self.complete = True
-                break
+                continue
  
             prop = func = False
             startVal = 0
             change = v
- 
-            try:
-                startVal = self.target.__dict__[k]
+            
+            var = getattr(self.target, k)
+            if(hasattr(var, "__call__")):
+                func = var
+                funcName = k
+            else:
+                startVal = var
+                change = v-startVal
                 prop = k
                 propName = k
  
-            except:
-                func = getattr( self.target, k)
-                funcName = k
- 
+            
             if func:
                 try:
                     getFunc = getattr(self.target, funcName.replace("set", "get") )
                     startVal = getFunc()
+                    change = v-startVal
                 except:
                     # no start value, assume its 0
                     # but make sure the start and change
@@ -247,7 +257,7 @@ class Tween(object):
                 tweenable = Tweenable( startVal, change)    
                 newProp = [ k, prop, tweenable]
                 self.tProps.append( newProp )  
- 
+            
         #print dir(self)
  
     def pause( self, numSeconds=-1 ):
@@ -280,7 +290,7 @@ class Tween(object):
  
         if not self.complete:
             for propName, prop, tweenable in self.tProps:
-                self.target.__dict__[prop] = self.tween( self.delta, tweenable.startValue, tweenable.change, self.duration )
+                setattr(self.target, prop, self.tween( self.delta, tweenable.startValue, tweenable.change, self.duration ))
             for funcName, func, tweenable in self.tFuncs:
                 func( self.tween( self.delta, tweenable.startValue, tweenable.change, self.duration ) )
  
@@ -348,6 +358,7 @@ class TweenTestObject:
  
     def update(self):
         print self.pos, self.rot
+        pass
  
     def setRotation(self, rot):
         self.rot = rot
@@ -363,24 +374,17 @@ if __name__=="__main__":
     import time
     T = Tweener()
     tst = TweenTestObject()
-    mt = T.addTween( tst, setRotation=500.0, tweenTime=2.5, tweenType=T.OUT_EXPO, 
-                      pos=-200, tweenDelay=0.4, onCompleteFunction=tst.complete, 
+    mt = T.addTween( tst, tweenTime=2.5, tweenType=T.LINEAR, 
+                      pos=-200, onCompleteFunction=tst.complete, 
                       onUpdateFunction=tst.update )
-    s = time.clock()
+    s = time.time()
     changed = False
     while T.hasTweens():
-        tm = time.clock()
+        tm = time.time()
         d = tm - s
         s = tm
-        T.update( d )
-        if mt.delta > 1.0 and not changed:
- 
-            tweenable = mt.getTweenable( "setRotation" )
- 
-            T.addTween( tweenable, change=-1000, tweenTime=0.7 )
-            T.addTween( mt, duration=-0.2, tweenTime=0.2 )
-            changed = True
-        #print mt.duration,
-        print tst.getRotation(), tst.pos
-        time.sleep(0.06)
+        print "Timechange: " + str(d)
+        T.update(d)
+        time.sleep(.06)
+    print "finished:"
     print tst.getRotation(), tst.pos
