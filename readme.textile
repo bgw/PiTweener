@@ -2,7 +2,7 @@ This library provides many equivalent functions of Flash's Caurina Tweener in py
 
 Usage is fairly simple. At the initialization phase:
 
-<code>
+bc..
 import PiTweener
 ...
 self.tweener = PiTweener.Tweener()
@@ -21,7 +21,6 @@ mt = tweener.getTweensAffectingObject(myRocket)[0]
 tweenable = mt.getTweenable("throttle")
 T.addTween(tweenable, change = 1000, tweenTime = 0.7)
 T.addTween(mt, duration = -0.2, tweenTime = 0.2)
-</code>
 
 h2. pyTweener
 
