@@ -34,7 +34,7 @@
 
 import math
 
-class Tweener:
+class Tweener(object):
     def __init__(self):
         """Tweener
         This class manages all active tweens, and provides a factory for
@@ -393,7 +393,7 @@ class Tween(object):
 
 
 
-class Tweenable:
+class Tweenable(object):
     def __init__(self, start, change):
         """Tweenable:
             Holds values for anything that can be tweened
@@ -404,7 +404,7 @@ class Tweenable:
 
 
 
-class TweenTestObject:
+class TweenTestObject(object):
     def __init__(self):
         self.pos = 20
         self.rot = 50
