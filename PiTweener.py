@@ -31,7 +31,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from __future__ import print_function
 import math
 
 class Tweener(object):
@@ -409,7 +408,7 @@ class TweenTestObject(object):
         self.rot = 50
     
     def update(self):
-        print(self.pos, self.rot)
+        print(str(self.pos) + ", " + str(self.rot))
     
     def set_rotation(self, rot):
         self.rot = rot
@@ -437,6 +436,5 @@ if __name__=="__main__":
         s = tm
         T.update(d)
         time.sleep(.06)
-    print("finished:")
-    print(tst.get_rotation(), tst.pos)
+    print("finished: " + str(tst.get_rotation()) + ", " + str(tst.pos))
 
