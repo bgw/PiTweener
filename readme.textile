@@ -7,21 +7,21 @@ import PiTweener
 ...
 self.tweener = PiTweener.Tweener()
 # add a tween:
-tweener.addTween(
-    myRocket,
+tweener.add_tween(
+    my_rocket,
     throttle = 50,
-    setThrust = 400,
-    tweenTime = 5.0,
-    tweenType = tweener.OUT_QUAD,
-    onCompleteFunction = myRocket.burn
+    set_thrust = 400,
+    tween_time = 5.0,
+    tween_type = tweener.OUT_QUAD,
+    on_complete_function = my_rocket.burn
 )
 ...
 # get a tween and modify it:
-mt = tweener.getTweensAffectingObject(myRocket)[0]
-tweenable = mt.getTweenable("throttle")
-T.addTween(tweenable, change = 1000, tweenTime = 0.7)
-T.addTween(mt, duration = -0.2, tweenTime = 0.2)
+mt = tweener.get_tweens_affecting_object(my_rocket)[0]
+tweenable = mt.get_tweenable("throttle")
+T.add_tween(tweenable, change = 1000, tween_time = 0.7)
+T.add_tween(mt, duration = -0.2, tween_time = 0.2)
 
 h2. pyTweener
 
-PiTweener is a fork of "pyTweener":http://wiki.python-ogre.org/index.php/CodeSnippits_pyTweener . It was forked by pipeep (get it?), to address a number of bugs in the pyTweener engine. Eventually the entire library (and API) will be made to match "python's <code>PEP 8</code> guidelines":http://www.python.org/dev/peps/pep-0008 .
+PiTweener is a fork of "pyTweener":http://wiki.python-ogre.org/index.php/CodeSnippits_pyTweener . It was forked by pipeep (get it?), to address a number of bugs in the pyTweener engine. In addition, PiTweener attempts to match "python's <code>PEP 8</code> guidelines":http://www.python.org/dev/peps/pep-0008 .
