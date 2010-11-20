@@ -1,4 +1,4 @@
-This library provides many equivalent functions of Flash's Caurina Tweener in python 2 and python 3, and uses the same set of excellent "easing equations by Robert Penner":http://www.robertpenner.com/easing/ . In a nut-shell, it allows you to move objects with nice smooth acceleration and deceleration using a variety of methods. Plus you don't have to worry about updating them. Any property that supports standard mathematical operations can be tweened. This is particularly useful with animations.
+This library provides many equivalent functions of Flash's Caurina Tweener in cpython 2, cpython 3 and jython 2, and uses the same set of excellent "easing equations by Robert Penner":http://www.robertpenner.com/easing/ . In a nut-shell, it allows you to move objects with nice smooth acceleration and deceleration using a variety of methods. Plus you don't have to worry about updating them. Any property that supports standard mathematical operations can be tweened. This is particularly useful with animations.
 
 Usage is fairly simple. At the initialization phase:
 

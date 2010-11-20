@@ -33,28 +33,21 @@
 
 import math
 
-class Tweener(object):
-    def __init__(self):
-        """Tweener
-        This class manages all active tweens, and provides a factory for
-        creating and spawning tween motions."""
-        self.current_tweens = []
-        self.default_tween_type = self.IN_OUT_QUAD
-        self.default_duration = 1.0
+class TweenerEquations(object):
     
     def OUT_EXPO(self, t, b, c, d):
         if t == d:
             return b + c
         return c * (-2 ** (-10 * t / d) + 1) + b;
     
-    def LINEAR (self, t, b, c, d):
+    def LINEAR(self, t, b, c, d):
         return c * t / d + b
     
-    def IN_QUAD (self, t, b, c, d):
+    def IN_QUAD(self, t, b, c, d):
         t /= d
         return c * t * t + b
     
-    def OUT_QUAD (self, t, b, c, d):
+    def OUT_QUAD(self, t, b, c, d):
         t /= d
         return -c * t * (t - 2) + b
     
@@ -68,7 +61,7 @@ class Tweener(object):
     def OUT_IN_QUAD(self, t, b, c, d):
         if t < d * .5:
             return self.OUT_QUAD(t * 2, b, c * .5, d)
-        return self.IN_QUAD(t * 2 - d, b + c * .5, c * .5)
+        return self.IN_QUAD(t * 2 - d, b + c * .5, c * .5, d)
     
     def IN_CUBIC(self, t, b, c, d):
         t /= d
@@ -121,7 +114,16 @@ class Tweener(object):
         
         return (a * 2. ** (-10. * t) * math.sin((t * d - s) * (2. * math.pi)
                                                 / p) + c + b)
-    
+
+class Tweener(TweenerEquations):
+    def __init__(self):
+        """Tweener
+        This class manages all active tweens, and provides a factory for
+        creating and spawning tween motions."""
+        self.current_tweens = []
+        self.default_tween_type = self.IN_OUT_QUAD
+        self.default_duration = 1.0
+        self.prev_time = time.time()
     
     def has_tweens(self):
         return len(self.current_tweens) > 0
@@ -216,7 +218,21 @@ class Tweener(object):
                 t.complete = True
                 self.current_tweens.remove(t)
     
-    def update(self, time_since_last_frame):
+    def update(self, time_since_last_frame=None):
+        """Update every tween with the time since the last frame. If there is an
+           update function, it is always called whether the tween is running or
+           paused.
+           
+           time_since_last_frame is the change in time in seconds. If no value
+           is passed, the change in time is measured with time.time() from the
+           previous call of this function. If it is the first time calling this
+           function, timing is measured from the construction of the Tweener
+           engine.
+        """
+        current_time = time.time()
+        if time_since_last_frame is None:
+            time_since_last_frame = current_time - self.prev_time
+        self.prev_time = current_time
         for t in self.current_tweens:
             t.update(time_since_last_frame)
             if t.complete:
@@ -316,11 +332,12 @@ class Tween(object):
         if self.paused:
             self.paused = False
     
-    def update(self, ptime):
-        """Update this tween with the time since the last frame if there is an
+    def update(self, ptime=None):
+        """Update this tween with the time since the last frame. If there is an
            update function, it is always called whether the tween is running or
-           paused
+           paused. ptime is the change in time in seconds.
            """
+        
         if self.paused:
             if self.delay > 0:
                 self.delay = max(0, self.delay - ptime)
@@ -428,13 +445,9 @@ if __name__=="__main__":
     mt = T.add_tween(tst, tween_time=2.5, tween_type=T.LINEAR, pos=-200,
                      on_complete_function=tst.complete,
                      on_update_function=tst.update)
-    s = time.time()
     changed = False
     while T.has_tweens():
-        tm = time.time()
-        d = tm - s
-        s = tm
-        T.update(d)
+        T.update()
         time.sleep(.06)
     print("finished: " + str(tst.get_rotation()) + ", " + str(tst.pos))
 
