@@ -39,12 +39,12 @@ class Tweener:
         """Tweener
         This class manages all active tweens, and provides a factory for
         creating and spawning tween motions."""
-        self.currentTweens = []
-        self.defaultTweenType = self.IN_OUT_QUAD
-        self.defaultDuration = 1.0
+        self.current_tweens = []
+        self.default_tween_type = self.IN_OUT_QUAD
+        self.default_duration = 1.0
     
     def OUT_EXPO(self, t, b, c, d):
-        if (t == d):
+        if t == d:
             return b + c
         return c * (-2 ** (-10 * t / d) + 1) + b;
     
@@ -97,7 +97,7 @@ class Tweener:
     
     def OUT_QUART(self, t, b, c, d):
         t = t / d - 1
-        return -c * ((t)*t*t*t - 1) + b
+        return -c * (t * t * t * t - 1) + b
     
     def IN_OUT_QUART(self, t, b, c, d):
         t /= d * .5
@@ -124,16 +124,16 @@ class Tweener:
                                                 / p) + c + b)
     
     
-    def hasTweens(self):
-        return len(self.currentTweens) > 0
+    def has_tweens(self):
+        return len(self.current_tweens) > 0
     
     
-    def addTween(self, obj, **kwargs):
+    def add_tween(self, obj, **kwargs):
         """addTween(object, **kwargs) returns Tween object or False
            
            Example:
-           tweener.addTween(myRocket, throttle=50, setThrust=400,
-                            tweenTime=5.0, tweenType=tweener.OUT_QUAD)
+           tweener.add_tween(my_rocket, throttle=50, set_thrust=400,
+                            tween_time=5.0, tween_type=tweener.OUT_QUAD)
            
            You must first specify an object, and at least one property or
            function with a corresponding change value. The tween will throw an
@@ -148,103 +148,104 @@ class Tweener:
            in addition to any properties you specify on the object, these
            keywords do additional setup of the tween.
            
-           tweenTime = the duration of the motion
-           tweenType = a predefined tweening equations or your own function
-           onCompleteFunction = a function to call on completion of the tween
-           onUpdateFunction = a function to call every time the tween updates
-           tweenDelay = a delay before starting.
+           tween_time = the duration of the motion
+           tween_type = a predefined tweening equations or your own function
+           on_complete_function = a function to call on completion of the tween
+           on_update_function = a function to call every time the tween updates
+           tween_delay = a delay before starting.
            """
-        if "tweenTime" in kwargs:
-            t_time = kwargs.pop("tweenTime")
+        if "tween_time" in kwargs:
+            t_time = kwargs.pop("tween_time")
         else:
-            t_time = self.defaultDuration
+            t_time = self.default_duration
         
-        if "tweenType" in kwargs:
-            t_type = kwargs.pop("tweenType")
+        if "tween_type" in kwargs:
+            t_type = kwargs.pop("tween_type")
         else:
-            t_type = self.defaultTweenType
+            t_type = self.default_tween_type
         
-        if "onCompleteFunction" in kwargs:
-            t_completeFunc = kwargs.pop("onCompleteFunction")
+        if "on_complete_function" in kwargs:
+            t_complete_func = kwargs.pop("on_complete_function")
         else:
-            t_completeFunc = None
+            t_complete_func = None
         
-        if "onUpdateFunction" in kwargs:
-            t_updateFunc = kwargs.pop("onUpdateFunction")
+        if "on_update_function" in kwargs:
+            t_update_func = kwargs.pop("on_update_function")
         else:
-            t_updateFunc = None
+            t_update_func = None
         
-        if "tweenDelay" in kwargs:
-            t_delay = kwargs.pop("tweenDelay")
+        if "tween_delay" in kwargs:
+            t_delay = kwargs.pop("tween_delay")
         else:
             t_delay = 0
         
-        tw = Tween(
-            obj, t_time, t_type, t_completeFunc, t_updateFunc, t_delay, **kwargs
-        )
+        tw = Tween(obj, t_time, t_type, t_complete_func, t_update_func, t_delay,
+                   **kwargs)
         if tw:    
-            self.currentTweens.append(tw)
+            self.current_tweens.append(tw)
         return tw
     
-    def removeAllTweens(self):
-        for i in self.currentTweens:
+    def remove_all_tweens(self):
+        "Stops and removes every tween associated with this Tweener object."
+        for i in self.current_tweens:
             i.complete = True
-        self.currentTweens = []
+        self.current_tweens = []
     
-    def removeTween(self, tweenObj):
-        if tweenObj in self.currentTweens:
-            tweenObj.complete = True
-            self.currentTweens.remove(tweenObj)
+    def remove_tween(self, tween_obj):
+        "Stops and removes the Tween instance passed."
+        if tween_obj in self.current_tweens:
+            tween_obj.complete = True
+            self.current_tweens.remove(tween_obj)
     
-    def getTweensAffectingObject(self, obj):
+    def get_tweens_affecting_object(self, obj):
         """Get a list of all tweens acting on the specified object. Useful for
-           manipulating tweens on the fly
+           manipulating tweens on the fly.
            """
         tweens = []
-        for t in self.currentTweens:
+        for t in self.current_tweens:
             if t.target is obj:
                 tweens.append(t)
         return tweens
     
-    def removeTweeningFrom(self, obj):
+    def remove_tweening_from(self, obj):
         """Stop tweening an object, without completing the motion or firing the
-           completeFunction
+           complete_function.
            """
         # TODO: This loop could be optimized a bit
-        for t in self.currentTweens[:]:
+        for t in self.current_tweens[:]:
             if t.target is obj:
                 t.complete = True
-                self.currentTweens.remove(t)
+                self.current_tweens.remove(t)
     
-    def update(self, timeSinceLastFrame):
-        for t in self.currentTweens:
-            t.update(timeSinceLastFrame)
+    def update(self, time_since_last_frame):
+        for t in self.current_tweens:
+            t.update(time_since_last_frame)
             if t.complete:
-                self.currentTweens.remove(t)
+                self.current_tweens.remove(t)
 
 
 class Tween(object):
-    def __init__(self, obj, tduration, tweenType, completeFunction,
-                 updateFunction, delay, **kwargs):
+    def __init__(self, obj, tduration, tween_type, complete_function,
+                 update_function, delay, **kwargs):
         """Tween object:
            Can be created directly, but much more easily using
-           Tweener.addTween(...)
+           Tweener.add_tween(...)
            """
         self.duration = tduration
         self.delay = delay
         self.target = obj
-        self.tween = tweenType
+        self.tween = tween_type
         self.tweenables = kwargs
         self.delta = 0
-        self.completeFunction = completeFunction
-        self.updateFunction = updateFunction
+        self.complete_function = complete_function
+        self.update_function = update_function
         self.complete = False
-        self.tProps = []
-        self.tFuncs = []
+        self.t_props = []
+        self.t_funcs = []
         self.paused = self.delay > 0
-        self.decodeArguments()
+        self.decode_arguments()
     
-    def decodeArguments(self):
+    def decode_arguments(self):
         """Internal setup procedure to create tweenables and work out how to
            deal with each
            """
@@ -266,56 +267,56 @@ class Tween(object):
                 continue
             
             prop = func = False
-            startVal = 0
+            start_val = 0
             change = v
             
             var = getattr(self.target, k)
             if hasattr(var, "__call__"):
                 func = var
-                funcName = k
+                func_name = k
             else:
-                startVal = var
-                change = v-startVal
+                start_val = var
+                change = v - start_val
                 prop = k
-                propName = k
+                prop_name = k
             
             
             if func:
                 try:
-                    getFunc = getattr(self.target,
-                                      funcName.replace("set", "get"))
-                    startVal = getFunc()
-                    change = v-startVal
+                    get_func = getattr(self.target,
+                                       func_name.replace("set", "get"))
+                    start_val = get_func()
+                    change = v - start_val
                 except:
                     # no start value, assume its 0
                     # but make sure the start and change
-                    # dataTypes match :)
+                    # datatypes match :)
                     startVal = change * 0
-                tweenable = Tweenable(startVal, change)    
-                newFunc = [k, func, tweenable]
+                tweenable = Tweenable(start_val, change)    
+                new_func = [k, func, tweenable]
                 
                 
-                self.tFuncs.append(newFunc)
+                self.t_funcs.append(new_func)
             
             
             if prop:
-                tweenable = Tweenable(startVal, change)    
-                newProp = [k, prop, tweenable]
-                self.tProps.append(newProp)  
+                tweenable = Tweenable(start_val, change)    
+                new_prop = [k, prop, tweenable]
+                self.t_props.append(new_prop)  
     
     
-    def pause(self, numSeconds=-1):
+    def pause(self, seconds = -1):
         """Pause this tween
            do tween.pause(2) to pause for a specific time, or tween.pause()
            which pauses indefinitely.
            """
         self.paused = True
-        self.delay = numSeconds
+        self.delay = seconds
     
     def resume(self):
         "Resume from pause"
         if self.paused:
-            self.paused=False
+            self.paused = False
     
     def update(self, ptime):
         """Update this tween with the time since the last frame if there is an
@@ -328,35 +329,35 @@ class Tween(object):
                 if self.delay == 0:
                     self.paused = False
                     self.delay = -1
-                if self.updateFunction:
-                    self.updateFunction()
+                if self.update_function:
+                    self.update_function()
             return
         
         self.delta = min(self.delta + ptime, self.duration)
         
         if not self.complete:
-            for propName, prop, tweenable in self.tProps:
+            for prop_name, prop, tweenable in self.t_props:
                 setattr(self.target, prop,
-                        self.tween(self.delta, tweenable.startValue,
+                        self.tween(self.delta, tweenable.start_value,
                                    tweenable.change, self.duration))
-            for funcName, func, tweenable in self.tFuncs:
+            for func_name, func, tweenable in self.t_funcs:
                 func(
-                    self.tween(self.delta, tweenable.startValue,
+                    self.tween(self.delta, tweenable.start_value,
                                tweenable.change, self.duration)
                 )
         
         
         if self.delta == self.duration:
             self.complete = True
-            if self.completeFunction:
-                self.completeFunction()
+            if self.complete_function:
+                self.complete_function()
         
-        if self.updateFunction:
-            self.updateFunction()
+        if self.update_function:
+            self.update_function()
     
     
     
-    def getTweenable(self, name):
+    def get_tweenable(self, name):
         """Return the tweenable values corresponding to the name of the original
         tweening function or property. 
         
@@ -367,18 +368,17 @@ class Tween(object):
         
         # the rocket needs to escape!! -- we're already moving, but must go
         # faster!
-        twn = tweener.getTweensAffectingObject(myRocket)[0]
-        tweenable = twn.getTweenable("thrusterPower")
-        tweener.addTween(
-            tweenable, change=1000.0, tweenTime=0.4, tweenType=tweener.IN_QUAD
-        )
+        twn = tweener.get_tweens_affecting_object(my_rocket)[0]
+        tweenable = twn.get_tweenable("thruster_power")
+        tweener.addTween(tweenable, change=1000.0, tween_time=0.4,
+                         tween_type=tweener.IN_QUAD)
         """
         ret = None
-        for n, f, t in self.tFuncs:
+        for n, f, t in self.t_funcs:
             if n == name:
                 ret = t
                 return ret
-        for n, p, t in self.tProps:
+        for n, p, t in self.t_props:
             if n == name:
                 ret = t
                 return ret
@@ -397,8 +397,9 @@ class Tweenable:
     def __init__(self, start, change):
         """Tweenable:
             Holds values for anything that can be tweened
-            these are normally only created by Tweens"""
-        self.startValue = start
+            these are normally only created by Tweens
+            """
+        self.start_value = start
         self.change = change
 
 
@@ -411,10 +412,10 @@ class TweenTestObject:
     def update(self):
         print self.pos, self.rot
     
-    def setRotation(self, rot):
+    def set_rotation(self, rot):
         self.rot = rot
     
-    def getRotation(self):
+    def get_rotation(self):
         return self.rot
     
     def complete(self):
@@ -426,17 +427,17 @@ if __name__=="__main__":
     import time
     T = Tweener()
     tst = TweenTestObject()
-    mt = T.addTween(tst, tweenTime=2.5, tweenType=T.LINEAR, pos=-200,
-                    onCompleteFunction=tst.complete,
-                    onUpdateFunction=tst.update)
+    mt = T.add_tween(tst, tween_time=2.5, tween_type=T.LINEAR, pos=-200,
+                     on_complete_function=tst.complete,
+                     on_update_function=tst.update)
     s = time.time()
     changed = False
-    while T.hasTweens():
+    while T.has_tweens():
         tm = time.time()
         d = tm - s
         s = tm
         T.update(d)
         time.sleep(.06)
     print "finished:"
-    print tst.getRotation(), tst.pos
+    print tst.get_rotation(), tst.pos
 
