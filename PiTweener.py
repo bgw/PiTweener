@@ -31,7 +31,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-
+from __future__ import print_function
 import math
 
 class Tweener(object):
@@ -252,7 +252,7 @@ class Tween(object):
         
         if len(self.tweenables) == 0:
             # nothing to do 
-            print "TWEEN ERROR: No Tweenable properties or functions defined"
+            raise BaseException("No Tweenable properties or functions defined")
             self.complete = True
             return
         
@@ -261,8 +261,7 @@ class Tween(object):
             
             # check that it's compatible
             if not hasattr(self.target, k):
-                print \
-                    "TWEEN ERROR: " + str(self.target) + " has no function " + k
+                raise AttributeError(str(self.target) + " has no function " + k)
                 self.complete = True
                 continue
             
@@ -410,7 +409,7 @@ class TweenTestObject(object):
         self.rot = 50
     
     def update(self):
-        print self.pos, self.rot
+        print(self.pos, self.rot)
     
     def set_rotation(self, rot):
         self.rot = rot
@@ -419,7 +418,7 @@ class TweenTestObject(object):
         return self.rot
     
     def complete(self):
-        print "I'm done tweening now mommy!"
+        print("I'm done tweening now mommy!")
 
 
 
@@ -438,6 +437,6 @@ if __name__=="__main__":
         s = tm
         T.update(d)
         time.sleep(.06)
-    print "finished:"
-    print tst.get_rotation(), tst.pos
+    print("finished:")
+    print(tst.get_rotation(), tst.pos)
 
