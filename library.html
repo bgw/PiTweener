@@ -1,0 +1,320 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The PiTweener Module &mdash; PiTweener v1.0 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '#',
+        VERSION:     '1.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="PiTweener v1.0 documentation" href="index.html" />
+    <link rel="next" title="Example Usage of PiTweener" href="tutorial.html" />
+    <link rel="prev" title="PiTweener v1.0 Documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="tutorial.html" title="Example Usage of PiTweener"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="PiTweener v1.0 Documentation"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">PiTweener v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="the-pitweener-module">
+<h1>The PiTweener Module<a class="headerlink" href="#the-pitweener-module" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="PiTweener.Tweener">
+<em class="property">class </em><tt class="descclassname">PiTweener.</tt><tt class="descname">Tweener</tt><a class="headerlink" href="#PiTweener.Tweener" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class manages all active tweens, and provides a factory for
+creating and spawning tween motions.</p>
+<dl class="method">
+<dt id="PiTweener.Tweener.add_tween">
+<tt class="descname">add_tween</tt><big>(</big><em>obj</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#PiTweener.Tweener.add_tween" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns Tween object or False</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">tweener</span><span class="o">.</span><span class="n">add_tween</span><span class="p">(</span><span class="n">my_rocket</span><span class="p">,</span> <span class="n">throttle</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">set_thrust</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span>
+                  <span class="n">tween_time</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span> <span class="n">tween_type</span><span class="o">=</span><span class="n">tweener</span><span class="o">.</span><span class="n">OUT_QUAD</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You must first specify an object, and at least one property or
+function with a corresponding change value. The tween will throw an
+error if you specify an attribute the object does not possess. Also
+the data types of the change and the initial value of the tweened
+item must match. If you specify a &#8216;set&#8217; -type function, the tweener
+will attempt to get the starting value by call the corresponding
+&#8216;get&#8217; function on the object. If you specify a property, the tweener
+will read the current state as the starting value. You add both
+functions and property changes to the same tween.</p>
+<p>in addition to any properties you specify on the object, these
+keywords do additional setup of the tween.</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">tween_time</span></tt>: the duration of the motion</li>
+<li><tt class="docutils literal"><span class="pre">tween_type</span></tt>: a predefined tweening equation or your own function</li>
+<li><tt class="docutils literal"><span class="pre">on_complete_function</span></tt>: called on completion of the tween</li>
+<li><tt class="docutils literal"><span class="pre">on_update_function</span></tt>: called every time the tween updates</li>
+<li><tt class="docutils literal"><span class="pre">tween_delay</span></tt>: a delay before starting.</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="PiTweener.Tweener.get_tweens_affecting_object">
+<tt class="descname">get_tweens_affecting_object</tt><big>(</big><em>obj</em><big>)</big><a class="headerlink" href="#PiTweener.Tweener.get_tweens_affecting_object" title="Permalink to this definition">¶</a></dt>
+<dd>Get a list of all tweens acting on the specified object. Useful for
+manipulating tweens on the fly.</dd></dl>
+
+<dl class="method">
+<dt id="PiTweener.Tweener.has_tweens">
+<tt class="descname">has_tweens</tt><big>(</big><big>)</big><a class="headerlink" href="#PiTweener.Tweener.has_tweens" title="Permalink to this definition">¶</a></dt>
+<dd>Returns <tt class="xref docutils literal"><span class="pre">True</span></tt> if there are any tweens (paused or unpaused),
+<tt class="xref docutils literal"><span class="pre">False</span></tt> otherwise. This function can be useful to determine if a
+redraw should be done or not.</dd></dl>
+
+<dl class="method">
+<dt id="PiTweener.Tweener.remove_all_tweens">
+<tt class="descname">remove_all_tweens</tt><big>(</big><big>)</big><a class="headerlink" href="#PiTweener.Tweener.remove_all_tweens" title="Permalink to this definition">¶</a></dt>
+<dd>Stops and removes every tween associated with this Tweener object.</dd></dl>
+
+<dl class="method">
+<dt id="PiTweener.Tweener.remove_tween">
+<tt class="descname">remove_tween</tt><big>(</big><em>tween_obj</em><big>)</big><a class="headerlink" href="#PiTweener.Tweener.remove_tween" title="Permalink to this definition">¶</a></dt>
+<dd>Stops and removes the Tween instance passed.</dd></dl>
+
+<dl class="method">
+<dt id="PiTweener.Tweener.remove_tweening_from">
+<tt class="descname">remove_tweening_from</tt><big>(</big><em>obj</em><big>)</big><a class="headerlink" href="#PiTweener.Tweener.remove_tweening_from" title="Permalink to this definition">¶</a></dt>
+<dd>Stop tweening an object, without completing the motion or firing the
+complete_function.</dd></dl>
+
+<dl class="method">
+<dt id="PiTweener.Tweener.update">
+<tt class="descname">update</tt><big>(</big><em>time_since_last_frame=None</em><big>)</big><a class="headerlink" href="#PiTweener.Tweener.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update every tween with the time since the last frame. If there is an
+update function, it is always called whether the tween is running or
+paused.</p>
+<p><tt class="docutils literal"><span class="pre">time_since_last_frame</span></tt> is the change in time in seconds. If no
+value is passed, the change in time is measured with time.time() from
+the previous call of this function. If it is the first time calling
+this function, timing is measured from the construction of the
+Tweener engine.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="PiTweener.TweenerEquations">
+<em class="property">class </em><tt class="descclassname">PiTweener.</tt><tt class="descname">TweenerEquations</tt><a class="headerlink" href="#PiTweener.TweenerEquations" title="Permalink to this definition">¶</a></dt>
+<dd><p>A set of predefined interpolation (tweening) equations. They are ported
+from the work of Robert Penner. Each equation takes 4 arguments, the
+current time from start, the start value, the desired final change from
+the start value, and the total duration of the tween. As is the nature of
+interpolation, no equation has units.</p>
+<p><strong>Note:</strong> When using the Tweener class, you should use the Tweener class&#8217;
+instance copies of the equations (Tweener extends TweenerEquations)</p>
+<dl class="method">
+<dt id="PiTweener.TweenerEquations.IN_CUBIC">
+<tt class="descname">IN_CUBIC</tt><big>(</big><em>t</em>, <em>b</em>, <em>c</em>, <em>d</em><big>)</big><a class="headerlink" href="#PiTweener.TweenerEquations.IN_CUBIC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="PiTweener.TweenerEquations.IN_OUT_CUBIC">
+<tt class="descname">IN_OUT_CUBIC</tt><big>(</big><em>t</em>, <em>b</em>, <em>c</em>, <em>d</em><big>)</big><a class="headerlink" href="#PiTweener.TweenerEquations.IN_OUT_CUBIC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="PiTweener.TweenerEquations.IN_OUT_QUAD">
+<tt class="descname">IN_OUT_QUAD</tt><big>(</big><em>t</em>, <em>b</em>, <em>c</em>, <em>d</em><big>)</big><a class="headerlink" href="#PiTweener.TweenerEquations.IN_OUT_QUAD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="PiTweener.TweenerEquations.IN_OUT_QUART">
+<tt class="descname">IN_OUT_QUART</tt><big>(</big><em>t</em>, <em>b</em>, <em>c</em>, <em>d</em><big>)</big><a class="headerlink" href="#PiTweener.TweenerEquations.IN_OUT_QUART" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="PiTweener.TweenerEquations.IN_QUAD">
+<tt class="descname">IN_QUAD</tt><big>(</big><em>t</em>, <em>b</em>, <em>c</em>, <em>d</em><big>)</big><a class="headerlink" href="#PiTweener.TweenerEquations.IN_QUAD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="PiTweener.TweenerEquations.IN_QUART">
+<tt class="descname">IN_QUART</tt><big>(</big><em>t</em>, <em>b</em>, <em>c</em>, <em>d</em><big>)</big><a class="headerlink" href="#PiTweener.TweenerEquations.IN_QUART" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="PiTweener.TweenerEquations.LINEAR">
+<tt class="descname">LINEAR</tt><big>(</big><em>t</em>, <em>b</em>, <em>c</em>, <em>d</em><big>)</big><a class="headerlink" href="#PiTweener.TweenerEquations.LINEAR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="PiTweener.TweenerEquations.OUT_CUBIC">
+<tt class="descname">OUT_CUBIC</tt><big>(</big><em>t</em>, <em>b</em>, <em>c</em>, <em>d</em><big>)</big><a class="headerlink" href="#PiTweener.TweenerEquations.OUT_CUBIC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="PiTweener.TweenerEquations.OUT_ELASTIC">
+<tt class="descname">OUT_ELASTIC</tt><big>(</big><em>t</em>, <em>b</em>, <em>c</em>, <em>d</em><big>)</big><a class="headerlink" href="#PiTweener.TweenerEquations.OUT_ELASTIC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="PiTweener.TweenerEquations.OUT_EXPO">
+<tt class="descname">OUT_EXPO</tt><big>(</big><em>t</em>, <em>b</em>, <em>c</em>, <em>d</em><big>)</big><a class="headerlink" href="#PiTweener.TweenerEquations.OUT_EXPO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="PiTweener.TweenerEquations.OUT_IN_CUBIC">
+<tt class="descname">OUT_IN_CUBIC</tt><big>(</big><em>t</em>, <em>b</em>, <em>c</em>, <em>d</em><big>)</big><a class="headerlink" href="#PiTweener.TweenerEquations.OUT_IN_CUBIC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="PiTweener.TweenerEquations.OUT_IN_QUAD">
+<tt class="descname">OUT_IN_QUAD</tt><big>(</big><em>t</em>, <em>b</em>, <em>c</em>, <em>d</em><big>)</big><a class="headerlink" href="#PiTweener.TweenerEquations.OUT_IN_QUAD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="PiTweener.TweenerEquations.OUT_QUAD">
+<tt class="descname">OUT_QUAD</tt><big>(</big><em>t</em>, <em>b</em>, <em>c</em>, <em>d</em><big>)</big><a class="headerlink" href="#PiTweener.TweenerEquations.OUT_QUAD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="PiTweener.TweenerEquations.OUT_QUART">
+<tt class="descname">OUT_QUART</tt><big>(</big><em>t</em>, <em>b</em>, <em>c</em>, <em>d</em><big>)</big><a class="headerlink" href="#PiTweener.TweenerEquations.OUT_QUART" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="PiTweener.Tween">
+<em class="property">class </em><tt class="descclassname">PiTweener.</tt><tt class="descname">Tween</tt><big>(</big><em>obj</em>, <em>tduration</em>, <em>tween_type</em>, <em>complete_function</em>, <em>update_function</em>, <em>delay</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#PiTweener.Tween" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="PiTweener.Tween.Remove">
+<tt class="descname">Remove</tt><big>(</big><big>)</big><a class="headerlink" href="#PiTweener.Tween.Remove" title="Permalink to this definition">¶</a></dt>
+<dd>Disables and removes this tween without calling the complete function</dd></dl>
+
+<dl class="method">
+<dt id="PiTweener.Tween.decode_arguments">
+<tt class="descname">decode_arguments</tt><big>(</big><big>)</big><a class="headerlink" href="#PiTweener.Tween.decode_arguments" title="Permalink to this definition">¶</a></dt>
+<dd>Internal setup procedure to create tweenables and work out how to
+deal with each</dd></dl>
+
+<dl class="method">
+<dt id="PiTweener.Tween.get_tweenable">
+<tt class="descname">get_tweenable</tt><big>(</big><em>name</em><big>)</big><a class="headerlink" href="#PiTweener.Tween.get_tweenable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the tweenable values corresponding to the name of the original
+tweening function or property.</p>
+<p>Allows the parameters of tweens to be changed at runtime. The parameters
+can even be tweened themselves!</p>
+<p>Eg:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># the rocket needs to escape!! -- we&#39;re already moving, but must go</span>
+<span class="c"># faster!</span>
+<span class="n">twn</span> <span class="o">=</span> <span class="n">tweener</span><span class="o">.</span><span class="n">get_tweens_affecting_object</span><span class="p">(</span><span class="n">my_rocket</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">tweenable</span> <span class="o">=</span> <span class="n">twn</span><span class="o">.</span><span class="n">get_tweenable</span><span class="p">(</span><span class="s">&quot;thruster_power&quot;</span><span class="p">)</span>
+<span class="n">tweener</span><span class="o">.</span><span class="n">addTween</span><span class="p">(</span><span class="n">tweenable</span><span class="p">,</span> <span class="n">change</span><span class="o">=</span><span class="mf">1000.0</span><span class="p">,</span> <span class="n">tween_time</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span>
+                 <span class="n">tween_type</span><span class="o">=</span><span class="n">tweener</span><span class="o">.</span><span class="n">IN_QUAD</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="PiTweener.Tween.pause">
+<tt class="descname">pause</tt><big>(</big><em>seconds=-1</em><big>)</big><a class="headerlink" href="#PiTweener.Tween.pause" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pause this tween</p>
+<p>Do <tt class="docutils literal"><span class="pre">tween.pause(2)</span></tt> to pause for a specific time, or
+<tt class="docutils literal"><span class="pre">tween.pause()</span></tt> which pauses indefinitely.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="PiTweener.Tween.resume">
+<tt class="descname">resume</tt><big>(</big><big>)</big><a class="headerlink" href="#PiTweener.Tween.resume" title="Permalink to this definition">¶</a></dt>
+<dd>Resume from pause</dd></dl>
+
+<dl class="method">
+<dt id="PiTweener.Tween.update">
+<tt class="descname">update</tt><big>(</big><em>ptime=None</em><big>)</big><a class="headerlink" href="#PiTweener.Tween.update" title="Permalink to this definition">¶</a></dt>
+<dd>Update this tween with the time since the last frame. If there is an
+update function, it is always called whether the tween is running or
+paused. ptime is the change in time in seconds.</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="index.html"
+                                  title="previous chapter">PiTweener v1.0 Documentation</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="tutorial.html"
+                                  title="next chapter">Example Usage of PiTweener</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/library.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="tutorial.html" title="Example Usage of PiTweener"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="PiTweener v1.0 Documentation"
+             >previous</a> |</li>
+        <li><a href="index.html">PiTweener v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Ben Harling and Benjamin Woodruff.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.4.
+    </div>
+  </body>
+</html>

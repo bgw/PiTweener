@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Example Usage of PiTweener &mdash; PiTweener v1.0 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '#',
+        VERSION:     '1.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="PiTweener v1.0 documentation" href="index.html" />
+    <link rel="prev" title="The PiTweener Module" href="library.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="library.html" title="The PiTweener Module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">PiTweener v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="example-usage-of-pitweener">
+<h1>Example Usage of PiTweener<a class="headerlink" href="#example-usage-of-pitweener" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">PiTweener</span>
+
+<span class="n">tweener</span> <span class="o">=</span> <span class="n">PiTweener</span><span class="o">.</span><span class="n">Tweener</span><span class="p">()</span>
+<span class="c"># add a tween:</span>
+<span class="n">tweener</span><span class="o">.</span><span class="n">add_tween</span><span class="p">(</span>
+    <span class="n">my_rocket</span><span class="p">,</span>
+    <span class="n">throttle</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
+    <span class="n">set_thrust</span> <span class="o">=</span> <span class="mi">400</span><span class="p">,</span>
+    <span class="n">tween_time</span> <span class="o">=</span> <span class="mf">5.0</span><span class="p">,</span>
+    <span class="n">tween_type</span> <span class="o">=</span> <span class="n">tweener</span><span class="o">.</span><span class="n">OUT_QUAD</span><span class="p">,</span>
+    <span class="n">on_complete_function</span> <span class="o">=</span> <span class="n">my_rocket</span><span class="o">.</span><span class="n">burn</span>
+<span class="p">)</span>
+
+<span class="c"># get a tween and modify it:</span>
+<span class="n">mt</span> <span class="o">=</span> <span class="n">tweener</span><span class="o">.</span><span class="n">get_tweens_affecting_object</span><span class="p">(</span><span class="n">my_rocket</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">tweenable</span> <span class="o">=</span> <span class="n">mt</span><span class="o">.</span><span class="n">get_tweenable</span><span class="p">(</span><span class="s">&quot;throttle&quot;</span><span class="p">)</span>
+<span class="n">tweener</span><span class="o">.</span><span class="n">add_tween</span><span class="p">(</span><span class="n">tweenable</span><span class="p">,</span> <span class="n">change</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">tween_time</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+<span class="n">tweener</span><span class="o">.</span><span class="n">add_tween</span><span class="p">(</span><span class="n">mt</span><span class="p">,</span> <span class="n">duration</span><span class="o">=-</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">tween_time</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="unit-tests">
+<h2>Unit Tests<a class="headerlink" href="#unit-tests" title="Permalink to this headline">¶</a></h2>
+<p>Unit tests can be executed simply by running PiTweenerTest:</p>
+<div class="highlight-python"><pre>python PiTweenerTest.py</pre>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#">Example Usage of PiTweener</a><ul>
+<li><a class="reference external" href="#unit-tests">Unit Tests</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="library.html"
+                                  title="previous chapter">The PiTweener Module</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/tutorial.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="library.html" title="The PiTweener Module"
+             >previous</a> |</li>
+        <li><a href="index.html">PiTweener v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Ben Harling and Benjamin Woodruff.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.4.
+    </div>
+  </body>
+</html>
