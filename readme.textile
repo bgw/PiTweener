@@ -29,6 +29,37 @@ Unit tests can be executed simply by running PiTweenerTest:
 
 bc. python PiTweenerTest.py
 
+h2. Documentation
+
+The project's documentation can be generated with Sphinx, the tool used to
+generate the official python documentation. On Ubuntu 10.04 (and probably Debian
+too) Sphinx can be installed through aptitude:
+
+bc. sudo apt-get install python-sphinx
+
+The documentation can then be built through the included Makefile. For the html
+documentation, run:
+
+bc. make html
+
+For the pdf documentation, make sure you have LaTeX installed and then run:
+
+bc. make latex
+
+and then compile the pdf with latex by running:
+
+bc. cd doc/latex; make all-pdf
+
+Note: If you are planning to use the html documentation with github pages, you
+must install "sphinx-to-github":https://github.com/michaeljones/sphinx-to-github
+first, and then run it on the generated html directory:
+
+bc. sphinxtogithub doc/html
+
+Note: These instructions assume that you are running some operating system where
+you can use a bash shell. On Windows you can use the included bat files, and
+modify any relevant instructions accordingly.
+
 h2. pyTweener
 
 PiTweener is a fork of "pyTweener":http://wiki.python-ogre.org/index.php/CodeSnippits_pyTweener . It was forked by pipeep (get it?), to address a number of bugs in the pyTweener engine. In addition, PiTweener attempts to match "python's <code>PEP 8</code> guidelines":http://www.python.org/dev/peps/pep-0008 .
