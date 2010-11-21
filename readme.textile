@@ -6,7 +6,7 @@ Usage is fairly simple. At the initialization phase:
 
 bc.. import PiTweener
 
-self.tweener = PiTweener.Tweener()
+tweener = PiTweener.Tweener()
 # add a tween:
 tweener.add_tween(
     my_rocket,
@@ -20,8 +20,8 @@ tweener.add_tween(
 # get a tween and modify it:
 mt = tweener.get_tweens_affecting_object(my_rocket)[0]
 tweenable = mt.get_tweenable("throttle")
-T.add_tween(tweenable, change = 1000, tween_time = 0.7)
-T.add_tween(mt, duration = -0.2, tween_time = 0.2)
+tweener.add_tween(tweenable, change=1000, tween_time=0.7)
+tweener.add_tween(mt, duration=-0.2, tween_time=0.2)
 
 h2. Unit Tests
 
