@@ -4,8 +4,7 @@ h2. Example Usage
 
 Usage is fairly simple. At the initialization phase:
 
-bc..
-import PiTweener
+bc.. import PiTweener
 
 self.tweener = PiTweener.Tweener()
 # add a tween:
