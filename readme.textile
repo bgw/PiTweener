@@ -2,7 +2,7 @@ This library provides many equivalent functions of Flash's Caurina Tweener in cp
 
 h2. Example Usage
 
-Usage is fairly simple. At the initialization phase:
+PiTweener itself is located in the @src@ directory. Usage is fairly simple. At the initialization phase:
 
 bc.. import PiTweener
 
@@ -27,18 +27,15 @@ h2. Unit Tests
 
 Unit tests can be executed simply by running PiTweenerTest:
 
-bc. python PiTweenerTest.py
+bc. cd src; python PiTweenerTest.py
 
 h2. Documentation
 
-The project's documentation can be generated with Sphinx, the tool used to
-generate the official python documentation. On Ubuntu 10.04 (and probably Debian
-too) Sphinx can be installed through aptitude:
+The project's documentation can be generated with Sphinx, the tool used to generate the official python documentation. On Ubuntu 10.04 (and probably Debian too) Sphinx can be installed through aptitude:
 
 bc. sudo apt-get install python-sphinx
 
-The documentation can then be built through the included Makefile. For the html
-documentation, run:
+The documentation can then be built through the included Makefile. For the html documentation, run:
 
 bc. make html
 
@@ -50,15 +47,11 @@ and then compile the pdf with latex by running:
 
 bc. cd doc/latex; make all-pdf
 
-Note: If you are planning to use the html documentation with github pages, you
-must install "sphinx-to-github":https://github.com/michaeljones/sphinx-to-github
-first, and then run it on the generated html directory:
+Note: If you are planning to use the html documentation with github pages, you must install "sphinx-to-github":https://github.com/michaeljones/sphinx-to-github first, and then run it on the generated html directory:
 
 bc. sphinxtogithub doc/html
 
-Note: These instructions assume that you are running some operating system where
-you can use a bash shell. On Windows you can use the included bat files, and
-modify any relevant instructions accordingly.
+Note: These instructions assume that you are running some operating system where you can use a bash shell. On Windows you can use the included bat files, and modify any relevant instructions accordingly.
 
 h2. pyTweener
 
